@@ -255,25 +255,27 @@ class Board:
         except IndexError:          #some positions on the outskirts of the screen are invalid locations
             s.Click()
 
-    def SaveSetupToFile(s):   #function writes the P_array to file checkers.txt
-        #savediag = Win(
-        # have a dialog box ask for the text file name to save to
-        s.isCustom = False
-        saveFile = open ('checkers.txt' , 'w')
+    def SaveSetupToFile(s):   #method writes the P_array to file checkers.txt
+        # can have a dialog box to ask for the text file name to save to
+        if (s.isCustom):
+            s.isCustom = False
+            has_been_changed = True
+        saveFile = open ('checkers.txt' , 'w') #opens file to write
         for i in range(8):
             for j in range(8):
-                if s.P_array[i][j].isPiece and (not(s.isCustom)):
+                if s.P_array[i][j].isPiece):
                     i_string = str(i)
                     j_string = str(j)
                     saveFile.write(i_string + j_string + str(s.P_array[i][j].isPiece)[1] + \
                                    str(s.P_array[i][j].isBlack)[1] + str(s.P_array[i][j].isKing)[1] + \
                                    str(s.P_array[i][j].isPawn)[1] + str(s.P_array[i][j].isWhite)[1] + "\n")
         print "Saved to checkers.txt"
-        s.isCustom = True
+        if (has_been_changed) :
+            s.isCustom = True
         saveFile.close()
 
-    def LoadSetupFromFile(s): #function gets the setup saved and places pieces accordingly
-        loadFile = open ('checkers.txt' , 'r')
+    def LoadSetupFromFile(s): #method gets the setup saved and places pieces accordingly
+        loadFile = open ('checkers.txt' , 'r') #opens file to read
         piece_list = loadFile.readlines()
         print "Going to clear the board and place the saved setup"
         s.ClearBoard()
@@ -298,8 +300,8 @@ class Board:
                         s.P_array[x_var][y_var] = Piece(s.win,x_var,y_var,'White','Pawn',True)
         loadFile.close()
 
-            
-            
+
+
 def ColourRect(win,Xmin,Ymin,Xmax,Ymax,colour):        #function to create a rectangle with a given colour, size, and location
     rect = Rectangle(Point(Xmin,Ymin),Point(Xmax,Ymax))
     rect.setFill(colour)
