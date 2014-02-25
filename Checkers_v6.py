@@ -257,6 +257,7 @@ class Board:
 
     def SaveSetupToFile(s):   #method writes the P_array to file checkers.txt
         # can have a dialog box to ask for the text file name to save to
+        has_been_changed = False
         if (s.isCustom):
             s.isCustom = False
             has_been_changed = True
