@@ -264,7 +264,7 @@ class Board:
         saveFile = open ('checkers.txt' , 'w') #opens file to write
         for i in range(8):
             for j in range(8):
-                if s.P_array[i][j].isPiece):
+                if (s.P_array[i][j].isPiece):
                     i_string = str(i)
                     j_string = str(j)
                     saveFile.write(i_string + j_string + str(s.P_array[i][j].isPiece)[1] + \
