@@ -409,26 +409,29 @@ class Checkers:
         except IndexError:          #some positions on the outskirts of the screen are invalid locations
             s.Click()
 
-    def SaveSetupToFile(s):   #function writes the P_array to file checkers.txt
-        #savediag = Win(
-        # have a dialog box ask for the text file name to save to
-        #right now can only have one save file with no user naming
-        s.state = 'saving'
-        saveFile = open ('checkers.txt' , 'w')
+    def SaveSetupToFile(s):   #method writes the P_array to file checkers.txt
+        # another comment
+        # can have a dialog box to ask for the text file name to save to
+        has_been_changed = False
+        if (s.isCustom):
+            s.isCustom = False
+            has_been_changed = True
+        saveFile = open ('checkers.txt' , 'w') #opens file to write
         for i in range(8):
             for j in range(8):
-                if s.tiles[i][j].isPiece and (s.state != 'CustomSetup'):
+                if (s.P_array[i][j].isPiece):
                     i_string = str(i)
                     j_string = str(j)
-                    saveFile.write(i_string + j_string + str(s.tiles[i][j].isPiece)[1] + \
-                                   str(s.tiles[i][j].isBlack)[1] + str(s.tiles[i][j].isKing)[1] + \
-                                   str(s.tiles[i][j].isPawn)[1] + str(s.tiles[i][j].isWhite)[1] + "\n")
+                    saveFile.write(i_string + j_string + str(s.P_array[i][j].isPiece)[1] + \
+                                   str(s.P_array[i][j].isBlack)[1] + str(s.P_array[i][j].isKing)[1] + \
+                                   str(s.P_array[i][j].isPawn)[1] + str(s.P_array[i][j].isWhite)[1] + "\n")
         print "Saved to checkers.txt"
-        s.state = 'CustomSetup'
+        if (has_been_changed) :
+            s.isCustom = True
         saveFile.close()
 
-    def LoadSetupFromFile(s): #function gets the setup saved and places pieces accordingly
-        loadFile = open ('checkers.txt' , 'r')
+    def LoadSetupFromFile(s): #method gets the setup saved and places pieces accordingly
+        loadFile = open ('checkers.txt' , 'r') #opens file to read
         piece_list = loadFile.readlines()
         print "Going to clear the board and place the saved setup"
         s.ClearBoard()
@@ -440,18 +443,19 @@ class Checkers:
             if (tot_string[2] == 'r'): #it is a piece
                 if (tot_string[3] == 'r'): #piece is black
                     if (tot_string[4] == 'r'): #piece is black King
-                        s.tiles[x_var][y_var] = Tile(s.win,x_var,y_var,True,'Black','King')
+                        s.P_array[x_var][y_var] = Piece(s.win,x_var,y_var,'Black','King',True)
                     else : #piece is a black pawn
                         assert(tot_string[5] == 'r')
-                        s.tiles[x_var][y_var] = Tile(s.win,x_var,y_var,True,'Black','Pawn')
+                        s.P_array[x_var][y_var] = Piece(s.win,x_var,y_var,'Black','Pawn',True)
                 else: #piece is white
                     assert(tot_string[6] == 'r')
                     if (tot_string[4] == 'r'): #piece is white King
-                        s.tiles[x_var][y_var] = Tile(s.win,x_var,y_var,True,'White','King')
+                        s.P_array[x_var][y_var] = Piece(s.win,x_var,y_var,'White','King',True)
                     else: #piece is white pawn
                         assert(tot_string[5] == 'r')
-                        s.tiles[x_var][y_var] = Tile(s.win,x_var,y_var,True,'White','Pawn')
+                        s.P_array[x_var][y_var] = Piece(s.win,x_var,y_var,'White','Pawn',True)
         loadFile.close()
+
 
 class Tile:                                #defines a tile and holds its current state
     def __init__(s,win,X,Y,isPiece,pieceColour='',pieceType=''):
