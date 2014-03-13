@@ -409,8 +409,7 @@ class Checkers:
         except IndexError:          #some positions on the outskirts of the screen are invalid locations
             s.Click()
 
-    def SaveSetupToFile(s):   #method writes the P_array to file checkers.txt
-        # another comment
+    def SaveSetupToFile(s):   #method writes the tiles array to file checkers.txt
         # can have a dialog box to ask for the text file name to save to
         has_been_changed = False
         if (s.isCustom):
@@ -419,12 +418,12 @@ class Checkers:
         saveFile = open ('checkers.txt' , 'w') #opens file to write
         for i in range(8):
             for j in range(8):
-                if (s.P_array[i][j].isPiece):
+                if (s.tiles[i][j].isPiece):
                     i_string = str(i)
                     j_string = str(j)
-                    saveFile.write(i_string + j_string + str(s.P_array[i][j].isPiece)[1] + \
-                                   str(s.P_array[i][j].isBlack)[1] + str(s.P_array[i][j].isKing)[1] + \
-                                   str(s.P_array[i][j].isPawn)[1] + str(s.P_array[i][j].isWhite)[1] + "\n")
+                    saveFile.write(i_string + j_string + str(s.tiles[i][j].isPiece)[1] + \
+                                   str(s.tiles[i][j].isBlack)[1] + str(s.tiles[i][j].isKing)[1] + \
+                                   str(s.tiles[i][j].isPawn)[1] + str(s.tiles[i][j].isWhite)[1] + "\n")
         print "Saved to checkers.txt"
         if (has_been_changed) :
             s.isCustom = True
@@ -443,19 +442,18 @@ class Checkers:
             if (tot_string[2] == 'r'): #it is a piece
                 if (tot_string[3] == 'r'): #piece is black
                     if (tot_string[4] == 'r'): #piece is black King
-                        s.P_array[x_var][y_var] = Piece(s.win,x_var,y_var,'Black','King',True)
+                        s.tiles[x_var][y_var] = Piece(s.win,x_var,y_var,'Black','King',True)
                     else : #piece is a black pawn
                         assert(tot_string[5] == 'r')
-                        s.P_array[x_var][y_var] = Piece(s.win,x_var,y_var,'Black','Pawn',True)
+                        s.tiles[x_var][y_var] = Piece(s.win,x_var,y_var,'Black','Pawn',True)
                 else: #piece is white
                     assert(tot_string[6] == 'r')
                     if (tot_string[4] == 'r'): #piece is white King
-                        s.P_array[x_var][y_var] = Piece(s.win,x_var,y_var,'White','King',True)
+                        s.tiles[x_var][y_var] = Piece(s.win,x_var,y_var,'White','King',True)
                     else: #piece is white pawn
                         assert(tot_string[5] == 'r')
-                        s.P_array[x_var][y_var] = Piece(s.win,x_var,y_var,'White','Pawn',True)
+                        s.tiles[x_var][y_var] = Piece(s.win,x_var,y_var,'White','Pawn',True)
         loadFile.close()
-
 
 class Tile:                                #defines a tile and holds its current state
     def __init__(s,win,X,Y,isPiece,pieceColour='',pieceType=''):
