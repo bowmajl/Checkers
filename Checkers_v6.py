@@ -70,7 +70,9 @@ class Board:
         w = GraphWin('Checkers Start Time')
         w.setCoords(0,0,10,10)
         Text(Point(5,5),'Board setup has concluded').draw(w)
-
+        w.getMouse()
+        w.close()
+        sys.exit()
     
     def Click(s):
         click = s.win.getMouse()        #Perform mouse click
