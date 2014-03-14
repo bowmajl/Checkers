@@ -192,8 +192,13 @@ class Checkers:
         if (-1<=X<1 and -2<=Y<-1) and s.state != 'Play': #Standard clicked
             s.StandardSetup()  
         elif (1<=X<3 and -2<=Y<-1) and s.state != 'Play': #Start! clicked
-            s.state = 'Play'
-            s.SetButtons()
+            num_wh = s.numColour('White')
+            num_bl = s.numColour('Black')
+            if ((num_wh == 0) and (num_bl == 0)) :
+                tkMessageBox.showinfo("Error", "No pieces have been placed!")
+            else :
+                s.state = 'Play'
+                s.SetButtons()
         elif (1<=X<3 and -3<=Y<-2) and s.state != 'Play': #Clear Board clicked
             s.ClearBoard()
         elif (4<=X<6 and -2<=Y<-1) and s.state != 'Play': #1Player clicked
@@ -256,7 +261,7 @@ class Checkers:
                 elif s.pTurn == s.tiles[X][Y]:
                     s.isTileSelected = True
                     s.selectedTile = s.tiles[X][Y]
-                elif s.moveIsValid(selectedTile.x,selectedTile.y,X,Y):
+                elif s.moveIsValid(s.selectedTile.x,s.selectedTile.y,X,Y):
                     s.move()
                 else:
                     tkMessageBox.showinfo("Error", "Can not move there.")
@@ -271,9 +276,9 @@ class Checkers:
 
     def moveIsValid(s,x,y,X,Y): #parameters -> self,starting X,starting Y,final X,final Y
         if s.tiles[X][Y].isPiece: #valid if can jump target piece
-            return PieceCanCapturPiece(s.tiles[x][y],s.tiles[X][Y])
-        elif #valid if can jump to target location
-        elif #valid if piece can travel to X,Y normally and PlayerCanCapture==False
+            return PieceCanCapturePiece(s.tiles[x][y],s.tiles[X][Y])
+        #elif #valid if can jump to target location
+        #elif #valid if piece can travel to X,Y normally and PlayerCanCapture==False
         return valid
         
 #the below few functions need conditions added to handle out of bounds errors (for being off grid, i.e. 0<=X<8 or 0<=Y<8 doesn't hold)            
